@@ -4,7 +4,6 @@ import allmart.deliveryservice.adapter.kafka.dto.OrderPaidMessage;
 import allmart.deliveryservice.application.provided.DeliveryCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
@@ -13,7 +12,6 @@ import tools.jackson.databind.ObjectMapper;
  * order.paid.v1 이벤트 수신
  * 결제 완료된 주문에 대해 배송을 자동 생성
  */
-@Profile("local")
 @Component
 @RequiredArgsConstructor
 @Log4j2
