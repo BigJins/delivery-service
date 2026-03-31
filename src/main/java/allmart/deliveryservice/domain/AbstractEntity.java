@@ -1,7 +1,6 @@
 package allmart.deliveryservice.domain;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import allmart.deliveryservice.config.SnowflakeGenerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 public abstract class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SnowflakeGenerated
     private Long id;
 
     public Long getId() {

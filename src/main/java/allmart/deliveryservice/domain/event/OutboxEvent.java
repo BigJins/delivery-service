@@ -1,5 +1,6 @@
 package allmart.deliveryservice.domain.event;
 
+import allmart.deliveryservice.config.SnowflakeGenerated;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 public class OutboxEvent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SnowflakeGenerated
     private Long id;
 
     @Column(name = "event_type", nullable = false, length = 50)
