@@ -37,7 +37,10 @@ public class DeliveryService implements DeliveryCreator, DeliveryStatusUpdater, 
     ) {
         Delivery delivery = Delivery.create(orderId, buyerId, totalAmount,
                 receiverName, receiverPhone, zipCode, address, detailAddress);
-        return deliveryRepository.save(delivery);
+        Delivery saved = deliveryRepository.save(delivery);
+        log.info("배송 생성 완료: deliveryId={}, orderId={}, buyerId={}, totalAmount={}",
+                saved.getId(), orderId, buyerId, totalAmount);
+        return saved;
     }
 
     @Override
@@ -45,7 +48,10 @@ public class DeliveryService implements DeliveryCreator, DeliveryStatusUpdater, 
         Delivery delivery = deliveryRepository.findById(deliveryId)
                 .orElseThrow(() -> new IllegalArgumentException("배송을 찾을 수 없습니다: " + deliveryId));
 
+        DeliveryStatus prevStatus = delivery.getStatus();
         delivery.advance(newStatus);
+        log.info("배송 상태 전이: deliveryId={}, orderId={}, {} → {}",
+                deliveryId, delivery.getOrderId(), prevStatus, newStatus);
 
         if (delivery.isDelivered()) {
             // DELIVERED 전이 시 delivery.completed.v1 Outbox 저장 (같은 트랜잭션)
