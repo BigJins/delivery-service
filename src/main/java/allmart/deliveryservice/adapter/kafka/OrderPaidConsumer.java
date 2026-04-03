@@ -24,16 +24,20 @@ public class OrderPaidConsumer {
     public void onMessage(String value) {
         log.info("order.paid.v1 수신: {}", value);
         try {
-            OrderPaidMessage msg = objectMapper.readValue(value, OrderPaidMessage.class);
-            var addr = msg.shippingAddress();
+            // Debezium schema envelope 처리: {"schema":...,"payload":"<json>"} 형식 대응
+            var root = objectMapper.readTree(value);
+            String payload = root.has("payload") ? root.get("payload").asText() : value;
+
+            OrderPaidMessage msg = objectMapper.readValue(payload, OrderPaidMessage.class);
+            var addr = msg.deliveryAddress();
             deliveryCreator.create(
                     msg.orderId(),
                     msg.buyerId(),
                     msg.totalAmount(),
-                    addr.receiverName(),
-                    addr.receiverPhone(),  // order-service에서 이미 마스킹된 값
+                    null,               // receiverName — PII 보호로 이벤트 미포함
+                    null,               // receiverPhone — PII 보호로 이벤트 미포함
                     addr.zipCode(),
-                    addr.address(),
+                    addr.roadAddress(),
                     addr.detailAddress()
             );
             log.info("배송 생성 완료: orderId={}", msg.orderId());
