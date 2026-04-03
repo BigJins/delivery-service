@@ -3,7 +3,7 @@ package allmart.deliveryservice.adapter.kafka;
 import allmart.deliveryservice.adapter.kafka.dto.OrderPaidMessage;
 import allmart.deliveryservice.application.provided.DeliveryCreator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import tools.jackson.databind.ObjectMapper;
@@ -14,7 +14,7 @@ import tools.jackson.databind.ObjectMapper;
  */
 @Component
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class OrderPaidConsumer {
 
     private final ObjectMapper objectMapper;
