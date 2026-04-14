@@ -1,6 +1,7 @@
 package allmart.deliveryservice.adapter.kafka;
 
 import allmart.deliveryservice.adapter.kafka.dto.DeliveryCompletedPayload;
+import allmart.deliveryservice.adapter.kafka.dto.DeliveryStatusPayload;
 import allmart.deliveryservice.application.required.OutboxEventPublisher;
 import allmart.deliveryservice.application.required.OutboxRepository;
 import allmart.deliveryservice.domain.delivery.Delivery;
@@ -34,6 +35,22 @@ public class OutboxEventPublisherAdapter implements OutboxEventPublisher {
         } catch (Exception e) {
             throw new IllegalStateException(
                     "delivery.completed.v1 이벤트 직렬화 실패: deliveryId=" + delivery.getId(), e);
+        }
+    }
+
+    @Override
+    public void publishDeliveryStatusChanged(Delivery delivery) {
+        try {
+            String json = objectMapper.writeValueAsString(DeliveryStatusPayload.from(delivery));
+            outboxRepository.save(OutboxEvent.create(
+                    "delivery.status.v1",
+                    "delivery",
+                    String.valueOf(delivery.getId()),
+                    json
+            ));
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                    "delivery.status.v1 이벤트 직렬화 실패: deliveryId=" + delivery.getId(), e);
         }
     }
 }

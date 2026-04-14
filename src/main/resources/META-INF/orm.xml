@@ -64,7 +64,7 @@
                 <column name="aggregate_type" nullable="false" length="50"/>
             </basic>
             <basic name="payload">
-                <column name="payload" nullable="false" column-definition="MEDIUMTEXT"/>
+                <column name="payload" nullable="false" column-definition="LONGTEXT"/>
                 <lob/>
             </basic>
             <basic name="createdAt">

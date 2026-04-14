@@ -53,6 +53,9 @@ public class DeliveryService implements DeliveryCreator, DeliveryStatusUpdater, 
         log.info("배송 상태 전이: deliveryId={}, orderId={}, {} → {}",
                 deliveryId, delivery.getOrderId(), prevStatus, newStatus);
 
+        // 모든 상태 변경 시 delivery.status.v1 Outbox 저장 → order-query-service deliveryStatus 갱신
+        outboxEventPublisher.publishDeliveryStatusChanged(delivery);
+
         if (delivery.isDelivered()) {
             // DELIVERED 전이 시 delivery.completed.v1 Outbox 저장 (같은 트랜잭션)
             outboxEventPublisher.publishDeliveryCompleted(delivery);

@@ -34,8 +34,8 @@ public class OrderPaidConsumer {
                     msg.orderId(),
                     msg.buyerId(),
                     msg.totalAmount(),
-                    null,               // receiverName — PII 보호로 이벤트 미포함
-                    null,               // receiverPhone — PII 보호로 이벤트 미포함
+                    "",                 // receiverName — PII 보호로 이벤트 미포함
+                    "",                 // receiverPhone — PII 보호로 이벤트 미포함
                     addr.zipCode(),
                     addr.roadAddress(),
                     addr.detailAddress()

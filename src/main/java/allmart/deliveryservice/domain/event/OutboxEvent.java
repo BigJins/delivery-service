@@ -1,8 +1,7 @@
 package allmart.deliveryservice.domain.event;
 
-import allmart.deliveryservice.config.SnowflakeGenerated;
+import allmart.deliveryservice.domain.AbstractEntity;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,11 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OutboxEvent {
-
-    @Id
-    @SnowflakeGenerated
-    private Long id;
+public class OutboxEvent extends AbstractEntity {
 
     private String eventType;
 
